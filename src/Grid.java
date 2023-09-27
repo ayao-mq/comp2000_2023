@@ -19,11 +19,13 @@ public class Grid {
     }
   }
 
-  private char colToLabel(int col) {
+  //changed from private to public for MovementOddRow.java
+  public char colToLabel(int col) {
     return (char) (col + Character.valueOf('A'));
   }
 
-  private int labelToCol(char col) {
+  //changed from private to public for MovementOddRow.java
+  public int labelToCol(char col) {
     return (int) (col - Character.valueOf('A'));
   }
 

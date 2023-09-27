@@ -4,13 +4,14 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 public class Stage {
   Grid grid;
   List<Actor> actors;
   List<Cell> cellOverlay;
   Optional<Actor> actorInAction;
+  MovementStrategy oddRowMovement;
+  MovementStrategy evenRowMovement;
 
   enum State {ChoosingActor, SelectingNewLocation, BotMoving}
   State currentState;
@@ -21,18 +22,26 @@ public class Stage {
     cellOverlay = new ArrayList<Cell>();
     actorInAction = Optional.empty();
     currentState = State.ChoosingActor;
+    oddRowMovement = new StratMoveLeft();
+    evenRowMovement = new StratMoveRandom();
+
   }
 
   public void paint(Graphics g, Point mouseLoc) {
     // do we have AI moves to make?
-    if(currentState == State.BotMoving) {
-      for(Actor a: actors) {
-        if(!a.isHuman()) {
-          List<Cell> possibleLocs = getClearRadius(a.loc, a.moves);
-          int moveBotChooses = (new Random()).nextInt(possibleLocs.size());
-          a.setLocation(possibleLocs.get(moveBotChooses));
+    if (currentState == State.BotMoving) {
+      for (Actor a : actors) {
+          if (!a.isHuman()) {
+              List<Cell> possibleLocs = getClearRadius(a.loc, a.moves);
+              
+              // if even row
+              if (a.loc.row % 2 == 0) {
+                  evenRowMovement.moveBot(a, possibleLocs);
+              } else {
+                  oddRowMovement.moveBot(a, possibleLocs);
+              }
+          }
         }
-      }
       currentState = State.ChoosingActor;
       for(Actor a: actors) {
         a.turns = 1;

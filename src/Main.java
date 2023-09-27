@@ -58,9 +58,9 @@ public class Main extends JFrame {
         Instant startTime = Instant.now();
         repaint();
         Instant endTime = Instant.now();
-        long howLong = Duration.between(startTime, endTime).toMillis();
+        long howLong = Duration.between(startTime, endTime).toMillis(); //time taken to render the frame in milliseconds
         try {
-          Thread.sleep(20l - howLong);
+          Thread.sleep(20l - howLong); //thread sleeps if howlong <20ms, else doesn't sleep
         } catch(InterruptedException e) {
           System.out.println("thread was interrupted, but who cares?");
         } catch(IllegalArgumentException e) {
