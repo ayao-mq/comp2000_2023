@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.Iterator;
 
 public class Grid implements Iterable<Cell> {
   Cell[][] cells = new Cell[20][20];
@@ -106,7 +105,7 @@ public class Grid implements Iterable<Cell> {
   }
 
   @Override
-  public Iterator<Cell> iterator() {
+  public GridIterator iterator() {
     return new GridIterator(cells);
   }
 }
