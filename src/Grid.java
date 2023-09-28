@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.Iterator;
 
-public class Grid {
+public class Grid implements Iterable<Cell> {
   Cell[][] cells = new Cell[20][20];
   
   public Grid() {
@@ -44,15 +45,21 @@ public class Grid {
   }
 
   public Optional<Cell> cellAtPoint(Point p) {
-    for(int i=0; i < cells.length; i++) {
-      for(int j=0; j < cells[i].length; j++) {
-        if(cells[i][j].contains(p)) {
-          return Optional.of(cells[i][j]);
-        }
+    // for(int i=0; i < cells.length; i++) {
+    //   for(int j=0; j < cells[i].length; j++) {
+    //     if(cells[i][j].contains(p)) {
+    //       return Optional.of(cells[i][j]);
+    //     }
+    //   }
+    // }
+    
+    for (Cell c : this) {
+      if (c.contains(p)) {
+          return Optional.of(c);
       }
-    }
-    return Optional.empty();
   }
+  return Optional.empty();
+}
 
   /**
    * Takes a cell consumer (i.e. a function that has a single `Cell` argument and
@@ -60,10 +67,17 @@ public class Grid {
    * @param func The `Cell` to `void` function to apply at each spot.
    */
   public void doToEachCell(Consumer<Cell> func) {
-    for(int i=0; i < cells.length; i++) {
-      for(int j=0; j < cells[i].length; j++) {
-        func.accept(cells[i][j]);
-      }
+    // for(int i=0; i < cells.length; i++) {
+    //   for(int j=0; j < cells[i].length; j++) {
+    //     func.accept(cells[i][j]);
+    //   }
+    // }
+    
+    // GridIterator iter = new GridIterator(cells);
+    // while (iter.hasNext()) {
+    //   func.accept(iter.next());
+    for (Cell c: this) {
+      func.accept(c);
     }
   }
 
@@ -89,5 +103,10 @@ public class Grid {
     for(Cell c: cells) {
       g.fillRect(c.x+2, c.y+2, c.width-4, c.height-4);
     }
+  }
+
+  @Override
+  public Iterator<Cell> iterator() {
+    return new GridIterator(cells);
   }
 }
