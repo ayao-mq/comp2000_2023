@@ -1,4 +1,5 @@
 public class AnimationBeat {
+    private static AnimationBeat instance; //t20
     private long started;
     private long a; // length of phase a
     private long b; // length of phase b
@@ -9,6 +10,14 @@ public class AnimationBeat {
         this.a = 5000;
         this.b = 500;
         this.c = 500;
+    }
+
+    //t20
+    public static AnimationBeat getInstance() {
+        if (instance == null) {
+            instance = new AnimationBeat();
+        }
+        return instance;
     }
 
     // returns which phase the animation is currently in

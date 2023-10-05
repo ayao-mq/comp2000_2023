@@ -29,6 +29,19 @@ public class Grid implements Iterable<Cell> {
 
   public void paint(Graphics g, Point mousePos) {
     doToEachCell( (Cell c) -> c.paint(g, mousePos) );
+    AnimationBeat animationBeat = AnimationBeat.getInstance();
+    char phase = animationBeat.inPhase();
+    long completion = animationBeat.phaseCompletion();
+
+    if (phase == 'a') {
+      g.setColor(Color.RED);
+  } else if (phase == 'b') {
+      g.setColor(Color.GREEN);
+  } else {
+      g.setColor(Color.BLUE);
+  }
+  g.drawString("Phase: " + phase, 10, 20);
+  g.drawString("Completion: " + completion + "%", 10, 40);
   }
 
   public Optional<Cell> cellAtColRow(int c, int r) {
